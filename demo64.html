@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>💖 Magical Proposal Generator 💖</title>
+  <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Sacramento&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    /* Base reset */
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+      background: #0d0d1a;
+      color: #fff;
+    }
+
+    /* Dynamic animated background layers */
+    .bg-layer {
+      position: absolute;
+      top: 0; left: 0;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255,182,193,0.4), transparent 70%),
+                  radial-gradient(circle at 20% 30%, rgba(173,216,230,0.4), transparent 60%),
+                  radial-gradient(circle at 80% 70%, rgba(221,160,221,0.4), transparent 60%),
+                  radial-gradient(circle at 50% 90%, rgba(255,255,200,0.4), transparent 70%);
+      animation: drift 60s linear infinite;
+      z-index: 0;
+    }
+    @keyframes drift {
+      0% { transform: translate(0,0) scale(1); }
+      50% { transform: translate(-25%, -20%) scale(1.2); }
+      100% { transform: translate(0,0) scale(1); }
+    }
+
+    .bg-aurora {
+      position: absolute;
+      top: 0; left: 0;
+      width: 200%;
+      height: 200%;
+      background: conic-gradient(from 90deg, rgba(255,0,150,0.2), rgba(0,255,200,0.2), rgba(255,255,0,0.2), rgba(0,150,255,0.2), rgba(255,0,150,0.2));
+      mix-blend-mode: screen;
+      animation: swirl 40s linear infinite;
+      z-index: 0;
+    }
+    @keyframes swirl {
+      0% { transform: rotate(0deg) scale(1); }
+      100% { transform: rotate(360deg) scale(1.2); }
+    }
+
+    /* Stars */
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 2s infinite;
+    }
+    @keyframes twinkle {
+      0%,100% { opacity: 0.3; }
+      50% { opacity: 1; }
+    }
+
+    /* Card design */
+    h1 {
+      font-size: 2.8rem;
+      color: #fff;
+      text-shadow: 0 0 20px #ffaad4, 0 0 35px #ff6f91;
+      margin-bottom: 25px;
+      z-index: 5;
+    }
+
+    .card {
+      width: 620px;
+      min-height: 440px;
+      background: rgba(255, 249, 244, 0.95);
+      border-radius: 25px;
+      border: 6px double #ff4e78;
+      box-shadow: 0 0 25px rgba(255, 80, 150, 0.9), 0 0 55px rgba(250, 180, 210, 0.7);
+      padding: 35px;
+      text-align: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    input {
+      padding: 12px;
+      border: 2px solid #ff4e78;
+      border-radius: 12px;
+      font-size: 1rem;
+      margin-bottom: 18px;
+      width: 80%;
+    }
+
+    button {
+      background: linear-gradient(135deg, #ff6f91, #ff4e78);
+      color: white;
+      padding: 14px 28px;
+      border: none;
+      border-radius: 14px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: 0.3s;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+    }
+    button:hover {
+      transform: scale(1.12);
+      background: linear-gradient(135deg, #ff4e78, #ff2a5d);
+    }
+
+    #message {
+      margin-top: 20px;
+      font-family: 'Sacramento', cursive;
+      font-size: 1.9rem;
+      line-height: 2.4rem;
+      color: #333;
+      text-align: left;
+      white-space: pre-wrap;
+      display: none;
+    }
+
+    .signature {
+      font-family: 'Great Vibes', cursive;
+      font-size: 2.4rem;
+      margin-top: 20px;
+      text-align: right;
+      background: linear-gradient(90deg, #ffd700, #fff3b0, #ffd700);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      opacity: 0;
+      transition: opacity 2s ease-in;
+    }
+
+    /* Floating petals */
+    .petal {
+      position: absolute;
+      width: 18px;
+      height: 18px;
+      background: pink;
+      border-radius: 50% 50% 0 50%;
+      transform: rotate(45deg);
+      opacity: 0.8;
+      animation: fall linear forwards;
+      z-index: 2;
+    }
+    @keyframes fall {
+      from { transform: translateY(-10vh) rotate(0deg); opacity: 1; }
+      to { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+
+    /* Glow sparks */
+    .spark {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      background: white;
+      border-radius: 50%;
+      box-shadow: 0 0 15px #fff, 0 0 30px #ff6f91;
+      animation: sparkle 3s infinite;
+    }
+    @keyframes sparkle {
+      0%,100% { opacity: 0.3; transform: scale(0.6); }
+      50% { opacity: 1; transform: scale(1.4); }
+    }
+  </style>
+</head>
+<body>
+  <div class="bg-layer"></div>
+  <div class="bg-aurora"></div>
+  <div>
+    <h1>💫 Cosmic Proposal 💫</h1>
+    <div class="card">
+      <input type="text" id="crushName" placeholder="Enter your crush's name 💕">
+      <br>
+      <button onclick="propose()">💌 Generate Proposal</button>
+      <div id="message"></div>
+      <div class="signature" id="signature">[Nikhil] 💌</div>
+    </div>
+  </div>
+
+  <script>
+    function propose() {
+      const name = document.getElementById("crushName").value || "Crush";
+      const message = `Dear ${name}, 💖
+
+You are the melody in my silence, the color in my grey skies, the warmth in my cold nights. 🌌🎶
+Every moment with you feels like starlight dancing across an endless sky. ✨
+I dream not of riches or glory, only of a tomorrow with you in it. 🌍❤️
+
+Will you be my guiding star? 🌠
+Will you walk beside me forever? 💑
+
+With all my love,`;
+      
+      typeWriter(message, "message", 40, () => {
+        document.getElementById("signature").style.opacity = 1;
+      });
+      releasePetals();
+      releaseSparks();
+      releaseStars();
+    }
+
+    function typeWriter(text, elementId, speed, callback) {
+      let i = 0;
+      const element = document.getElementById(elementId);
+      element.style.display = "block";
+      element.textContent = "";
+      function typing() {
+        if (i < text.length) {
+          element.textContent += text.charAt(i);
+          i++;
+          setTimeout(typing, speed);
+        } else if (callback) {
+          callback();
+        }
+      }
+      typing();
+    }
+
+    function releasePetals() {
+      for (let i = 0; i < 25; i++) {
+        const petal = document.createElement("div");
+        petal.classList.add("petal");
+        petal.style.left = Math.random() * 100 + "vw";
+        petal.style.animationDuration = (4 + Math.random() * 3) + "s";
+        document.body.appendChild(petal);
+        setTimeout(() => petal.remove(), 8000);
+      }
+    }
+
+    function releaseSparks() {
+      for (let i = 0; i < 20; i++) {
+        const spark = document.createElement("div");
+        spark.classList.add("spark");
+        spark.style.left = Math.random() * 100 + "vw";
+        spark.style.top = Math.random() * 100 + "vh";
+        spark.style.animationDuration = (2 + Math.random() * 3) + "s";
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 5000);
+      }
+    }
+
+    function releaseStars() {
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement("div");
+        star.classList.add("star");
+        star.style.left = Math.random() * 100 + "vw";
+        star.style.top = Math.random() * 100 + "vh";
+        star.style.animationDuration = (1 + Math.random() * 2) + "s";
+        document.body.appendChild(star);
+        setTimeout(() => star.remove(), 4000);
+      }
+    }
+  </script>
+</body>
+</html>
